@@ -17,12 +17,12 @@
         public List<string> ValueCollection { get; set; }
         /// <summary>
         /// A comparison date
+        /// See usage in AutoScenarioRules.json in rule ContainsIcd9AndDateReportedEarlier
         /// </summary>
         public DateTime? CompareDate { get; set; }
         /// <summary>
         /// Name of the column that is being evaluated
         /// Used as parameter variable name
-        /// See usage in AutoScenarioRules.json in rule ContainsIcd9AndDateReportedEarlier
         /// </summary>
         public string ColumnName { get; set; }
         /// <summary>

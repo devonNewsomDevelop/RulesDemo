@@ -57,9 +57,16 @@ namespace RulesDemo.Core.Services
                 }
 
                 // If there is an error within the parser that caused the failure, throw it to catch handler
-                if (result.Exception != null || result.Results.Any(r => !string.IsNullOrEmpty(r.ExceptionMessage)))
+                if (result.Exception != null)
                 {
-                    throw (result.Exception);
+                    throw result.Exception;
+                }
+
+                // Errors can also be nested
+                if (result.Results.Any(r => !string.IsNullOrEmpty(r.ExceptionMessage))) {
+                    var exceptionResult = result.Results.First(r => !string.IsNullOrEmpty(r.ExceptionMessage));
+                    var exception = new Exception(exceptionResult.ExceptionMessage);
+                    throw exception;
                 }
 
                 // Otherwise, return / emit a failure to pass (distinct from an error)

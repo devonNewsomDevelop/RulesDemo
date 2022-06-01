@@ -1,0 +1,71 @@
+{
+  "WorkflowName": "AutoScenarioRules",
+  "Rules": [
+    {
+      "RuleName": "ContainsIcd9",
+      "Expression": "!string.IsNullOrEmpty(task.CdIcd9) && CdIcd9.ValueCollection.Contains(task.CdIcd9)"
+    },
+    {
+      "RuleName": "ExcludesIcd9",
+      "Expression": "!string.IsNullOrEmpty(task.CdIcd9) && !CdIcd9.ValueCollection.Contains(task.CdIcd9)"
+    },
+    {
+      "RuleName": "ContainsIcd9AndDateReportedEarlier",
+      "LocalParams": [
+        {
+          "Name": "dateReportedEarlier",
+          "Expression": "task.DtReported < DtReported.CompareDate"
+        },
+        {
+          "Name": "containsIcd9",
+          "Expression": "!string.IsNullOrEmpty(task.CdIcd9) && CdIcd9.ValueCollection.Contains(task.CdIcd9)"
+        }
+      ],
+      "Expression": "containsIcd9 && dateReportedEarlier"
+    },
+    {
+      "RuleName": "ContainsSpecialLastName",
+      "Expression": "!string.IsNullOrEmpty(task.NmLast) && NmLast.ValueCollection.Contains(task.NmLast)"
+    },
+    {
+      "RuleName": "ContainsIcd9AndContainsLabTestCode",
+      "LocalParams": [
+        {
+          "Name": "containsIcd9",
+          "Expression": "!string.IsNullOrEmpty(task.CdIcd9) && CdIcd9.ValueCollection.Contains(task.CdIcd9)"
+        },
+        {
+          "Name": "containsLabTestCode",
+          "Expression": "!string.IsNullOrEmpty(task.CdLabTest) && CdLabTest.ValueCollection.Contains(task.CdLabTest)"
+        }
+      ],
+      "Expression": "containsIcd9 && containsLabTestCode"
+    },
+    {
+      "RuleNAme": "ElrEpiCaseRule",
+      "LocalParams": [
+        {
+          "Name": "epiCaseContainsIcd9",
+          "Expression": "!string.IsNullOrEmpty(task.EpiCase.CdIcd9) && CdIcd9.ValueCollection.Contains(task.EpiCase.CdIcd9)"
+        },
+        {
+          "Name": "epiCaseContainsStatus",
+          "Expression": "!string.IsNullOrEmpty(task.EpiCase.CdStatus) && CdStatus.ValueCollection.Contains(task.EpiCase.CdStatus)"
+        },
+        {
+          "Name": "epiCaseContainsDxStatus",
+          "Expression": "!string.IsNullOrEmpty(task.EpiCase.CdDxStatus) && CdDxStatus.ValueCollection.Contains(task.EpiCase.CdDxStatus)"
+        },
+        {
+          "Name": "epiCaseAgeWithinRange",
+          "Expression": "task.EpiCase.AmAge >= AmAge.RangeLow && task.EpiCase.AmAge <= AmAge.RangeHigh"
+        },
+        {
+          "Name": "epiCaseContainsIdAdded",
+          "Expression": "!string.IsNullOrEmpty(task.EpiCase.IdAdded) && IdAdded.ValueCollection.Contains(task.EpiCase.IdAdded)"
+        }
+      ],
+      "Expression": "epiCaseContainsIcd9 && epiCaseContainsStatus && epiCaseContainsDxStatus && epiCaseAgeWithinRange && epiCaseContainsIdAdded"
+    }
+  ]
+}
